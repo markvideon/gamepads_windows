@@ -5,6 +5,7 @@
 #include <flutter/plugin_registrar_windows.h>
 
 #include <memory>
+#include "device_listener.h"
 
 namespace gamepads_windows {
 
@@ -24,8 +25,9 @@ class GamepadsWindowsPlugin : public flutter::Plugin {
   void HandleMethodCall(
       const flutter::MethodCall<flutter::EncodableValue> &method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+private:
+    DeviceListener devices;
 };
-
 }  // namespace gamepads_windows
 
 #endif  // FLUTTER_PLUGIN_GAMEPADS_WINDOWS_PLUGIN_H_

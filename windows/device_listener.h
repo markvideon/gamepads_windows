@@ -16,7 +16,7 @@ class DeviceListener
 public:
     DeviceListener();
     ~DeviceListener();
-    void listGamepads();
+    const map<string, RawGameController> listGamepads() const;
 private:
     map<string, RawGameController> devices;
 

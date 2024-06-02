@@ -1,4 +1,4 @@
-#include "DeviceListener.h"
+#include "device_listener.h"
 #include <winrt/windows.gaming.input.h>
 #include <iostream>
 
@@ -16,10 +16,12 @@ DeviceListener::~DeviceListener() {
     devices.clear();
 }
 
-void DeviceListener::listGamepads() {
+const map<string, RawGameController> DeviceListener::listGamepads() const {
     for (auto entries : devices) {
         cout << to_string(entries.second.DisplayName()) << endl;
     }
+
+    return devices;
 }
 
 void DeviceListener::onRawGameControllerAdded(IInspectable const& _, RawGameController const gamepad) {
