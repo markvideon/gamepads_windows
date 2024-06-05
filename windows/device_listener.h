@@ -11,19 +11,18 @@ using namespace Gaming::Input;
 using namespace Foundation;
 using namespace std;
 
-class DeviceListener
-{
-public:
-    DeviceListener();
-    ~DeviceListener();
-    const map<string, RawGameController> listGamepads() const;
-private:
-    map<string, RawGameController> devices;
+namespace gamepads_windows {
+    class DeviceListener {
+    public:
+        DeviceListener();
+        ~DeviceListener();
+        const map <string, RawGameController> listGamepads() const;
 
-    void onRawGameControllerAdded(IInspectable const&, RawGameController const);
-    void onRawGameControllerRemoved(IInspectable const&, RawGameController const);
-};
-
-
+    private:
+        map <string, RawGameController> devices;
+        void onRawGameControllerAdded(IInspectable const &, RawGameController const);
+        void onRawGameControllerRemoved(IInspectable const &, RawGameController const);
+    };
+}
 
 #endif //GAMEPADS_WINDOWS_DEVICE_LISTENER_H

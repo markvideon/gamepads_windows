@@ -9,9 +9,11 @@
 
 namespace gamepads_windows {
 
-class GamepadsWindowsPlugin : public flutter::Plugin {
+using namespace flutter;
+
+class GamepadsWindowsPlugin : public Plugin {
  public:
-  static void RegisterWithRegistrar(flutter::PluginRegistrarWindows *registrar);
+  static void RegisterWithRegistrar(PluginRegistrarWindows *registrar);
 
   GamepadsWindowsPlugin();
 
@@ -23,8 +25,8 @@ class GamepadsWindowsPlugin : public flutter::Plugin {
 
   // Called when a method is called on this plugin's channel from Dart.
   void HandleMethodCall(
-      const flutter::MethodCall<flutter::EncodableValue> &method_call,
-      std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+      const MethodCall<EncodableValue> &method_call,
+      std::unique_ptr<MethodResult<EncodableValue>> result);
 private:
     DeviceListener devices;
 };

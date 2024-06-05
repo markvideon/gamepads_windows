@@ -6,30 +6,37 @@ using namespace std;
 using namespace winrt::Windows::Gaming::Input;
 using namespace Foundation;
 
-DeviceListener::DeviceListener() {
-    devices = {};
-    RawGameController::RawGameControllerAdded({ this , &DeviceListener::onRawGameControllerAdded });
-    RawGameController::RawGameControllerRemoved({ this, &DeviceListener::onRawGameControllerRemoved });
-}
-
-DeviceListener::~DeviceListener() {
-    devices.clear();
-}
-
-const map<string, RawGameController> DeviceListener::listGamepads() const {
-    for (auto entries : devices) {
-        cout << to_string(entries.second.DisplayName()) << endl;
+namespace gamepads_windows {
+    DeviceListener::DeviceListener() {
+        devices = {};
+        RawGameController::RawGameControllerAdded(
+                {this, &DeviceListener::onRawGameControllerAdded});
+        RawGameController::RawGameControllerRemoved(
+                {this, &DeviceListener::onRawGameControllerRemoved});
     }
 
-    return devices;
-}
+    DeviceListener::~DeviceListener() {
+        devices.clear();
+    }
 
-void DeviceListener::onRawGameControllerAdded(IInspectable const& _, RawGameController const gamepad) {
-    string id = to_string(gamepad.NonRoamableId());
-    auto mapEntry = map<string, RawGameController>::value_type(id, gamepad);
-    devices.insert(mapEntry);
-}
-void DeviceListener::onRawGameControllerRemoved(IInspectable const& _, RawGameController const gamepad) {
-    string id = to_string(gamepad.NonRoamableId());
-    devices.erase(id);
+    const map <string, RawGameController> DeviceListener::listGamepads() const {
+        for (auto entries: devices) {
+            cout << to_string(entries.second.DisplayName()) << endl;
+        }
+
+        return devices;
+    }
+
+    void DeviceListener::onRawGameControllerAdded(IInspectable const &_,
+                                                  RawGameController const gamepad) {
+        string id = to_string(gamepad.NonRoamableId());
+        auto mapEntry = map<string, RawGameController>::value_type(id, gamepad);
+        devices.insert(mapEntry);
+    }
+
+    void DeviceListener::onRawGameControllerRemoved(IInspectable const &_,
+                                                    RawGameController const gamepad) {
+        string id = to_string(gamepad.NonRoamableId());
+        devices.erase(id);
+    }
 }

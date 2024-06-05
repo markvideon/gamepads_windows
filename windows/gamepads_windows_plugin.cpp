@@ -10,25 +10,27 @@
 #include <memory>
 #include <sstream>
 
-namespace gamepads_windows {
+using namespace flutter;
+using namespace std;
 
+namespace gamepads_windows {
 // static
 void GamepadsWindowsPlugin::RegisterWithRegistrar(
-    flutter::PluginRegistrarWindows *registrar) {
+    PluginRegistrarWindows *registrar) {
 
   auto channel =
-      std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
+      make_unique<MethodChannel<EncodableValue>>(
           registrar->messenger(), "xyz.luan/gamepads",
-          &flutter::StandardMethodCodec::GetInstance());
+          &StandardMethodCodec::GetInstance());
 
-  auto plugin = std::make_unique<GamepadsWindowsPlugin>();
+  auto plugin = make_unique<GamepadsWindowsPlugin>();
 
   channel->SetMethodCallHandler(
       [plugin_pointer = plugin.get()](const auto &call, auto result) {
-        plugin_pointer->HandleMethodCall(call, std::move(result));
+        plugin_pointer->HandleMethodCall(call, move(result));
       });
 
-  registrar->AddPlugin(std::move(plugin));
+  registrar->AddPlugin(move(plugin));
 }
 
 GamepadsWindowsPlugin::GamepadsWindowsPlugin() {
@@ -37,23 +39,23 @@ GamepadsWindowsPlugin::GamepadsWindowsPlugin() {
 GamepadsWindowsPlugin::~GamepadsWindowsPlugin() {}
 
 void GamepadsWindowsPlugin::HandleMethodCall(
-    const flutter::MethodCall<flutter::EncodableValue> &method_call,
-    std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
+    const MethodCall<EncodableValue> &method_call,
+    unique_ptr<MethodResult<EncodableValue>> result) {
   if (method_call.method_name().compare("listGamepads") == 0) {
       auto gamepads = devices.listGamepads();
-      flutter::EncodableList output;
+      EncodableList output;
 
       for (const auto &item: gamepads) {
-          flutter::EncodableMap padMap;
+          EncodableMap padMap;
 
-          auto idEntry = map<flutter::EncodableValue, flutter::EncodableValue>::value_type(
-                  flutter::EncodableValue("id"),
-                  flutter::EncodableValue(to_string(item.second.NonRoamableId()))
+          auto idEntry = map<EncodableValue, EncodableValue>::value_type(
+                  EncodableValue("id"),
+                  EncodableValue(to_string(item.second.NonRoamableId()))
                   );
 
-          auto nameEntry = map<flutter::EncodableValue, flutter::EncodableValue>::value_type(
-                  flutter::EncodableValue("name"),
-                  flutter::EncodableValue(to_string(item.second.DisplayName()))
+          auto nameEntry = map<EncodableValue, EncodableValue>::value_type(
+                  EncodableValue("name"),
+                  EncodableValue(to_string(item.second.DisplayName()))
                   );
 
 
@@ -62,7 +64,7 @@ void GamepadsWindowsPlugin::HandleMethodCall(
           output.push_back(padMap);
       }
 
-    result->Success(flutter::EncodableValue(output));
+    result->Success(EncodableValue(output));
   } else {
     result->NotImplemented();
   }
