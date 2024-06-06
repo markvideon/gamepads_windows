@@ -16,7 +16,7 @@ namespace gamepads_windows {
     public:
         DeviceListener();
         ~DeviceListener();
-        const map <string, RawGameController> listGamepads() const;
+        const map <string, RawGameController>& listGamepads() const;
 
     private:
         map <string, RawGameController> devices;

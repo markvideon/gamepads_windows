@@ -6,6 +6,7 @@
 
 #include <memory>
 #include "device_listener.h"
+#include "event_listener.h"
 
 namespace gamepads_windows {
 
@@ -29,6 +30,8 @@ class GamepadsWindowsPlugin : public Plugin {
       std::unique_ptr<MethodResult<EncodableValue>> result);
 private:
     DeviceListener devices;
+    EventListener events;
+
 };
 }  // namespace gamepads_windows
 

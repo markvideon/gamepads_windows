@@ -19,11 +19,7 @@ namespace gamepads_windows {
         devices.clear();
     }
 
-    const map <string, RawGameController> DeviceListener::listGamepads() const {
-        for (auto entries: devices) {
-            cout << to_string(entries.second.DisplayName()) << endl;
-        }
-
+    const map <string, RawGameController>& DeviceListener::listGamepads() const {
         return devices;
     }
 
